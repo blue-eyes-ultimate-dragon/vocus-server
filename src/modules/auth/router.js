@@ -1,6 +1,6 @@
 // @flow
 
-import * as auth from './controller';
+import autenticate from './controller';
 
 export const baseUrl = '/authenticate';
 
@@ -8,6 +8,6 @@ export default [
   {
     method: 'POST',
     route: '/',
-    handlers: [auth.authenticate],
+    handlers: [autenticate],
   },
 ];

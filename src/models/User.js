@@ -3,7 +3,7 @@
 import { compareSync } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import pick from 'ramda/src/pick';
-import db from '../db';
+import knex from '../db';
 
 const fields = ['id', 'email', 'name'];
 
@@ -19,7 +19,7 @@ class User {
 
   async verify(password: string): Promise<boolean> {
     // Grab raw data from database to get access to other fields.
-    const user = await db.table('users').where({ email: this.email }).first();
+    const user = await knex.table('users').where({ email: this.email }).first();
 
     if (!user || !user.password_hash) {
       return false;
@@ -35,7 +35,7 @@ class User {
   }
 
   static async find(...args) {
-    return db
+    return knex
       .table('users')
       .where(...(args.length ? args : [{}]))
       .select(...fields)
@@ -43,7 +43,7 @@ class User {
   }
 
   static async findByIds(ids: string[]): Promise<Array<User | Error>> {
-    return db.table('users').whereIn('id', ids).then(rows =>
+    return knex.table('users').whereIn('id', ids).then(rows =>
       ids.map(id => {
         const row = rows.find(x => x.id === id);
         return row && new User(row);
@@ -52,7 +52,7 @@ class User {
   }
 
   static async findOne(...args): Promise<User> {
-    return db
+    return knex
       .table('users')
       .where(...(args.length ? args : [{}]))
       .first()
@@ -60,19 +60,19 @@ class User {
   }
 
   static async any(...args): Promise<boolean> {
-    return db
+    return knex
       .raw(
         'SELECT EXISTS ?',
-        db
+        knex
           .table('users')
           .where(...(args.length ? args : [{}]))
-          .select(db.raw('1'))
+          .select(knex.raw('1'))
       )
       .then(x => x.rows[0].exists);
   }
 
   static create(user) {
-    return db.table('users').insert(user, fields).then(x => new User(x[0]));
+    return knex.table('users').insert(user, fields).then(x => new User(x[0]));
   }
 }
 

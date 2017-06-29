@@ -5,6 +5,7 @@ exports.up = async (db) => {
     table.boolean('email_confirmed').notNullable();
     table.string('password_hash', 100);
     table.string('name').notNullable();
+    table.string('bio');
   });
 };
 

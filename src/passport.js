@@ -1,5 +1,3 @@
-// @flow
-
 import passport from 'koa-passport';
 import { Strategy } from 'passport-local';
 import User from './models/User';
@@ -23,7 +21,6 @@ passport.use(
     async (email, password, done) => {
       try {
         const user = await User.findOne({ email });
-
         if (!user) {
           return done(null, false);
         }

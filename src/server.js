@@ -25,6 +25,7 @@ app.use(jwt({ secret: process.env.APP_SECRET, passthrough: true }));
 
 // Custom API modules that define their own routes.
 const modules = require('./modules');
+
 modules(app);
 
 export default app;

@@ -9,11 +9,11 @@ export default [
   {
     method: 'ALL',
     route: '/',
-    handlers: [validateUser, graphql.http],
+    handlers: [graphql.http],
   },
   {
     method: 'GET',
     route: '/schema',
-    handlers: [validateUser, graphql.print],
+    handlers: [graphql.print],
   },
 ];

@@ -1,7 +1,7 @@
 // @flow
 
 import knex from 'knex';
-import Client from 'knex/lib/dialects/sqlite3';
+import Client from 'knex/lib/dialects/postgres';
 import Formatter from 'knex/lib/formatter';
 import knexConfig from '../knexfile';
 

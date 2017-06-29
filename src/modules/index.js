@@ -1,9 +1,9 @@
-// @flow
+/*eslint-disable*/
 
 import glob from 'glob';
 import Router from 'koa-router';
 
-exports = module.exports = function initModules(app: any) {
+exports = module.exports = function initModules(app) {
   glob(`${__dirname}/*`, { ignore: '**/index.js' }, (err, matches) => {
     if (err) {
       throw err;
@@ -21,7 +21,6 @@ exports = module.exports = function initModules(app: any) {
         const { method = '', route = '', handlers = [] } = config;
 
         const lastHandler = handlers.pop();
-
         instance[method.toLowerCase()](route, ...handlers, async function(ctx) {
           return await lastHandler(ctx);
         });
