@@ -12,13 +12,13 @@ const root = {
     if (ctx.header.authorization) {
       token = verify(
         ctx.header.authorization.replace('Bearer ', ''),
-        process.env.APP_SECRET
+        process.env.APP_SECRET,
       );
     }
     if (!token) {
       return ctx.throw(
         401,
-        '401 - Unauthorized. You need to sign up to Vocus to use this endpoint'
+        '401 - Unauthorized. You need to sign up to Vocus to use this endpoint',
       );
     }
     const user = await knex
@@ -51,7 +51,7 @@ const root = {
       backers.backers.filter(
         val =>
           val.id.toLowerCase() === me.id.toLowerCase() &&
-          newTable.authorized_roles.includes(val.type)
+          newTable.authorized_roles.includes(val.type),
       )[0];
     const ownContent = me.id === newTable.user_uuid;
     if (ownContent || isBacker) {
