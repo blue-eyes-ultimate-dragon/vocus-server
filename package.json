@@ -59,7 +59,6 @@
     "seed:make": "knex seed:make",
     "seed:run": "knex seed:run",
     "precommit": "lint-staged",
-    "prepush": "yarn flow && CI=true yarn test:coverage",
     "now-build": "npm run migrate:latest"
   },
   "lint-staged": {
