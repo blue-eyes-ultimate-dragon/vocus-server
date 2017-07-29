@@ -144,3 +144,5 @@ docs
 
 ### SQLite3 ###
 /sqlite3
+
+.env
