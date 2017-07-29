@@ -14,5 +14,8 @@ export default new GraphQLObjectType({
     name: {
       type: GraphQLString,
     },
+    bio: {
+      type: GraphQLString,
+    },
   },
 });

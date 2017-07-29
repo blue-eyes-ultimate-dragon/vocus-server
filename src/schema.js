@@ -1,7 +1,7 @@
 // @flow
 
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
-import { me, stories, story } from './queries';
+import { me } from './queries';
 import { createStory } from './mutations';
 
 export default new GraphQLSchema({
@@ -9,8 +9,6 @@ export default new GraphQLSchema({
     name: 'Query',
     fields: {
       me,
-      stories,
-      story,
     },
   }),
   mutation: new GraphQLObjectType({

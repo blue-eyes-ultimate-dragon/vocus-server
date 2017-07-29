@@ -2,20 +2,16 @@ const Knex = require('knex');
 const config = require('../knexfile.js');
 
 const knex = new Knex(config);
-
 exports.up = async (db) => {
-  await db.schema.createTable('art', (table) => {
+  await db.schema.createTable('backers', (table) => {
     table.uuid('id').notNullable().defaultTo(knex.raw('uuid_generate_v1()')).primary();
-    table.text('title').notNullable();
-    table.text('description');
-    table.uuid('user_uuid').notNullable();
-    table.json('images');
-    table.timestamps();
+    table.uuid('user_uuid');
+    table.json('backers');
   });
 };
 
 exports.down = async (db) => {
-  await db.schema.dropTableIfExists('art');
+  await db.schema.dropTableIfExists('backers');
 };
 
 module.exports.configuration = { transaction: true };

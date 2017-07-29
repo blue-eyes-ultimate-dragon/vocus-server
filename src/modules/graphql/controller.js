@@ -8,7 +8,7 @@ import knex from '../../db';
 
 const root = {
   async authenticate(ctx) {
-    let token = '';
+    let token = null;
     if (ctx.header.authorization) {
       token = verify(
         ctx.header.authorization.replace('Bearer ', ''),
@@ -18,7 +18,7 @@ const root = {
     if (!token) {
       return ctx.throw(
         401,
-        '401 - Unauthorized. You need to sign up to Rettai.com to use this endpoint'
+        '401 - Unauthorized. You need to sign up to Vocus to use this endpoint'
       );
     }
     const user = await knex
@@ -26,6 +26,39 @@ const root = {
       .where({ email: token.email })
       .first();
     return user;
+  },
+  async checkBackerAuthorization(table, ctx) {
+    const newTable = Object.assign({ authorized: false }, table);
+    const backers = await knex
+      .table('backers')
+      .where({ user_uuid: newTable.user_uuid })
+      .first();
+    if (newTable.authorized_roles.includes('PUBLIC')) {
+      newTable.authorized = true;
+      return newTable;
+    }
+    newTable.authorized = false;
+    const sanitizedOutput = Object.assign({}, newTable, { content: {} });
+    let me;
+    try {
+      me = await root.authenticate(ctx);
+    } catch (e) {
+      me = { id: '' };
+    }
+
+    const isBacker =
+      backers &&
+      backers.backers.filter(
+        val =>
+          val.id.toLowerCase() === me.id.toLowerCase() &&
+          newTable.authorized_roles.includes(val.type)
+      )[0];
+    const ownContent = me.id === newTable.user_uuid;
+    if (ownContent || isBacker) {
+      newTable.authorized = true;
+      return newTable;
+    }
+    return sanitizedOutput;
   },
 };
 
