@@ -2,7 +2,7 @@
 
 import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import { me } from './queries';
-import { createStory } from './mutations';
+import { createUser } from './mutations';
 
 export default new GraphQLSchema({
   query: new GraphQLObjectType({
@@ -14,7 +14,7 @@ export default new GraphQLSchema({
   mutation: new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-      createStory,
+      createUser,
     },
   }),
 });
